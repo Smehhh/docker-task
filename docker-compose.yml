@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  admin:
+    image: smehhh/admin-server:1.0
+    ports:
+      - 9003:9003
+  client:
+    image: smehhh/client-service:1.0
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+      - admin
+    env_file:
+      - prop.env
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    env_file:
+      - prop.env
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - 8081:8081
+    env_file:
+      - prop.env
